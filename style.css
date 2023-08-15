@@ -1,0 +1,214 @@
+/* Global Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f0f0;
+}
+
+.logo img {
+  width: 50px;
+  /* Ölçüleri gereksinimlere göre ayarlayın */
+  height: auto;
+}
+
+/* Header Styles */
+header {
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo img {
+  width: 50px;
+  height: auto;
+}
+
+.header-menu {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+.header-menu li a {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.header-menu li a:hover {
+  color: #ddd;
+}
+
+/* Feedback Styles */
+.feedback-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.github-logo {
+  font-size: 30px;
+  color: #ffffff;
+  transition: color 0.3s ease;
+}
+
+.github-logo:hover {
+  color: #007bff;
+}
+
+.header-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.header-button:hover {
+  background-color: #0056b3;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Feed Section */
+.feed-section {
+  border: 1px solid #ddd;
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.feed-title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Haber Başlığı Kutuları */
+.article {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    display: flex;
+    flex-direction: row; /* Yatay yönde hizalama */
+    border-radius: 5px;
+}
+
+.image-container {
+    margin-left: 1rem; /* Görselin içeriğin sağına bırakılması */
+    flex-shrink: 0; /* Görselin boyutunu değiştirmeden kalması */
+}
+
+.image-container img {
+    max-width: 100%;
+    height: auto;
+}
+
+.content-container {
+    flex-grow: 1; /* İçerik bölümünün boşluğu doldurması */
+}
+.article:hover {
+  background-color: #ebebeb;
+}
+
+.article h2 {
+  margin-top: 0;
+  font-size: 1.25rem;
+}
+
+.article a {
+  color: #007bff;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-size: large;
+}
+
+.article a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+.article p {
+  margin: 0.5rem 0;
+  color: #444;
+  opacity: 1;
+  font-weight: lighter;
+}
+
+/* Footer Styles */
+footer {
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+footer p {
+  margin: 0.5rem 0;
+}
+
+footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+footer ul li {
+  margin-bottom: 0.3rem;
+}
+
+
+img{
+  max-width: 150px;
+  max-height: 100px;
+  border-radius: 5px;
+}
+
+
+/* Mobil uyarı kutusu */
+.mobile-warning {
+    display: none; /* Başlangıçta gizli */
+    text-align: center;
+    background-color: #f2f2f2;
+    padding: 5px;
+    border: 3px solid;
+    font-weight: lighter;
+    font-size: small;
+}
+
+/* Mobil cihazlarda */
+@media (max-width: 600px) {
+    .mobile-warning {
+        display: block; /* Göster */
+    }
+    
+    /* Haber fotoğraflarını gizle */
+    img {
+        display: none;
+    }
+}
+
+
+
+
+/* Ekran genişliği 600 pikselden küçük olduğunda header fontunu küçült */
+@media (max-width: 600px) {
+    h1 {
+        font-size:x-large;
+        margin-right: 2%;
+    }
+}
