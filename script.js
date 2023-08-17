@@ -21,6 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
       title: 'Technopat',
       url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.technopat.net/feed'
     },
+    {
+      title: 'Github personal feed (@mehmetkahya0)',
+      url: 'https://api.rss2json.com/v1/api.json?rss_url=https://github.com/mehmetkahya0.private.atom?token=AUCBQ6CSCT6M5K3QC7GINP6C46NAS'
+    },
 
     {
       title: 'WIRED',
@@ -96,4 +100,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.location.href = `mailto:mehmetkahyakas5@gmail.com?subject=${subject}&body=${body}`;
   });
+});
+
+
+const themeToggleButton = document.getElementById('theme-toggle-button');
+const body = document.body;
+
+themeToggleButton.addEventListener('click', () => {
+  body.classList.toggle('dark-mode');
+  if (body.classList.contains('dark-mode')) {
+    themeToggleButton.innerHTML = '🌙'; // Ay emojisi
+  } else {
+    themeToggleButton.innerHTML = '☀️'; // Güneş emojisi
+  }
 });
