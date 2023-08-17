@@ -110,3 +110,18 @@ themeToggleButton.addEventListener('click', () => {
     themeToggleButton.innerHTML = '☀️'; // Güneş emojisi
   }
 });
+
+
+const updateList = document.getElementById('update-list');
+
+function addUpdate(updateText) {
+    const updateItem = document.createElement('li');
+    updateItem.textContent = updateText;
+    updateList.appendChild(updateItem);
+}
+
+// Yenilikler burada listeye eklenecek
+addUpdate('17 ağustos 2023: ')
+addUpdate('  Dark mode toggle eklendi.');
+addUpdate('  Responsive tasarım güncellendi.');
+// Yeni yenilikleri burada ekleyebilirsiniz.
