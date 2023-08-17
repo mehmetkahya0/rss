@@ -301,6 +301,7 @@ img {
 
 /* Update Notes bölümü stilleri */
 #update-notes {
+  margin-top: 5px;
   background-color: #f9f9f9;
   padding: 1rem;
   border-radius: 8px;
@@ -323,6 +324,33 @@ img {
   margin-bottom: 0.5rem;
 }
 
+
+
+/* Update Notes bölümü stilleri */
+.dark-mode #update-notes {
+  margin-top: 5px;
+  background-color: #232323;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  /* Eşit genişlikte */
+}
+
+.dark-mode #update-notes h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.dark-mode #update-list {
+  list-style: none;
+  padding: 0;
+}
+
+.dark-mode #update-list li {
+  margin-bottom: 0.5rem;
+}
 
 /* Mobil cihazlarda */
 @media (max-width: 600px) {
