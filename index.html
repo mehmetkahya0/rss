@@ -22,10 +22,11 @@
     <div class="feedback-section">
       <a href="https://github.com/mehmetkahya0" target="_blank" class="github-logo"><i class="fab fa-github"></i></a>
       <button class="header-button" id="feedback-button">Feedback</button>
+      <button id="theme-toggle-button" class="toggle-header-button" aria-label="Toggle Theme">🌞</button>
     </div>
   </header>
   <div class="mobile-warning">
-      <p>❗️Haber fotoğrafları mobil cihazlarda gösterilmemektedir❗️</p>
+    <p>❗️Haber fotoğrafları mobil cihazlarda gösterilmemektedir❗️</p>
   </div>
 
   <main id="feed" class="container">
@@ -40,6 +41,14 @@
     </ul>
   </footer>
   <script src="script.js"></script>
+  <script>
+    const themeToggleButton = document.getElementById('theme-toggle-button');
+    const body = document.body;
+
+    themeToggleButton.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+    });
+  </script>
 </body>
 
 </html>
