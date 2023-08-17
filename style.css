@@ -292,3 +292,42 @@ img {
     margin-right: 2%;
   }
 }
+
+/* Ana içerik bölümü */
+.content {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Update Notes bölümü stilleri */
+#update-notes {
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  /* Eşit genişlikte */
+}
+
+#update-notes h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+#update-list {
+  list-style: none;
+  padding: 0;
+}
+
+#update-list li {
+  margin-bottom: 0.5rem;
+}
+
+
+/* Mobil cihazlarda */
+@media (max-width: 600px) {
+  .content {
+    display: none;
+    /* Gizle */
+  }
+}
