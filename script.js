@@ -22,11 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
       url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.technopat.net/feed'
     },
     {
-      title: 'Github personal feed (@mehmetkahya0)',
-      url: 'https://api.rss2json.com/v1/api.json?rss_url=https://github.com/mehmetkahya0.private.atom?token=AUCBQ6CSCT6M5K3QC7GINP6C46NAS'
-    },
-
-    {
       title: 'WIRED',
       url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.wired.com/feed/category/science/latest/rss'
     },
