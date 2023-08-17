@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
       title: 'Technopat',
       url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.technopat.net/feed'
     },
+
     {
       title: 'WIRED',
       url: 'https://api.rss2json.com/v1/api.json?rss_url=https://www.wired.com/feed/category/science/latest/rss'
