@@ -3,6 +3,7 @@
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fmehmetkahya0%2Frss&count_bg=%23D16C0E&title_bg=%23272727&icon=rss.svg&icon_color=%23E7E7E7&title=views&edge_flat=false)](https://hits.seeyoufarm.com)
 This project aims to create a modern news website that fetches RSS feeds from different sources and displays news articles to the users.
 
+**TRY HERE: https://mehmetkahya0.github.io/rss/**
 ## Project Description
 
 In this project, a dynamic news website has been built using JavaScript, HTML, and CSS. Various technologies have been used to fetch RSS feeds and display images in customized sizes.
