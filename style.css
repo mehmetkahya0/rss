@@ -1,3 +1,11 @@
+/* Selection color */
+::selection {
+  color: black;
+  background: yellow;
+}
+
+
+
 /* Global Styles */
 body {
   font-family: Arial, sans-serif;
