@@ -1,68 +1,83 @@
 <!DOCTYPE html>
 <html lang="tr-TR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mehmet's RSS Feed</title>
+    <link rel="stylesheet" href="style.css" />
+    <link href="favicon.ico" rel="icon" type="image/x-icon" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.13.0/css/all.css"
+    />
+    <link rel="preload" href="rss.png" as="image" />
+    <script id="_wau0rl">var _wau = _wau || []; _wau.push(["small", "hz9nbj6kd5", "0rl"]);</script><script async src="//waust.at/s.js"></script>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mehmet's RSS Feed</title>
-  <link rel="stylesheet" href="style.css">
-  <link href="favicon.ico" rel="icon" type="image/x-icon" />
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
-  <link rel="preload" href="rss.png" as="image">
-  <script id="_wau0rl">var _wau = _wau || []; _wau.push(["small", "hz9nbj6kd5", "0rl"]);</script><script async src="//waust.at/s.js"></script>
-</head>
-
-<body>
-  <header>
-    <div class="logo">
-      <img src="rss.png" alt="Logo">
-    </div>
-    <ul class="header">
-      <h1>Mehmet's RSS Feed</h1>
-    </ul>
-    <div class="feedback-section">
-      <a href="https://github.com/mehmetkahya0" target="_blank" class="github-logo"><i class="fab fa-github"></i></a>
-      <button class="header-button" id="feedback-button">Feedback</button>
-      <button id="theme-toggle-button" class="toggle-header-button" aria-label="Toggle Theme">🌞</button>
-    </div>
-  </header>
-  <div class="mobile-warning">
-    <p>❗️Haber fotoğrafları mobil cihazlarda gösterilmemektedir❗️</p>
-  </div>
-
-  <!-- Ana içerik bölümü -->
-  <main class="content">
-    <section id="update-notes">
-      <p style="font-style: italic; font-weight: lighter; font-size: small;">- If RSS feed's doesn't show please clear
-        your browser caches</p>
-      <h3>Update Notes</h3>
-      <ul id="update-list">
-        <!-- Yenilikler burada listelenecek -->
+  <body>
+    <header>
+      <div class="logo">
+        <img src="rss.png" alt="Logo" />
+      </div>
+      <ul class="header">
+        <h1>Mehmet's RSS Feed</h1>
       </ul>
-    </section>
+      <div class="feedback-section">
+        <a
+          href="https://github.com/mehmetkahya0"
+          target="_blank"
+          class="github-logo"
+          ><i class="fab fa-github"></i
+        ></a>
+        <button class="header-button" id="feedback-button">Feedback</button>
+        <button
+          id="theme-toggle-button"
+          class="toggle-header-button"
+          aria-label="Toggle Theme"
+        >
+          🌞
+        </button>
+      </div>
+    </header>
+    <div class="mobile-warning">
+      <p>❗️Haber fotoğrafları mobil cihazlarda gösterilmemektedir❗️</p>
+    </div>
 
-    <!-- Diğer içerikler -->
-  </main>
-  <main id="feed" class="container">
-    <!-- RSS beslemesi burada görüntülenecek -->
-  </main>
+    <!-- Ana içerik bölümü -->
+    <main class="content">
+      <section id="update-notes">
+        <p style="font-style: italic; font-weight: lighter; font-size: small">
+          - If RSS feed's doesn't show please clear your browser caches
+        </p>
+        <h3>Update Notes</h3>
+        <ul id="update-list">
+          <!-- Yenilikler burada listelenecek -->
+        </ul>
+      </section>
 
-  <footer>
-    <p style="font-weight: bolder; font-size: larger">Mehmet Kahya - 2023</p>
-    <ul>
-      <li style="font-weight: lighter; font-size:small
-        ;">Webtekno - New York Times -Technopat - Github - Evrim Ağacı - OpenAI Blog - The Verge</li>
-    </ul>
-  </footer>
-  <script src="script.js"></script>
-  <script>
-    const themeToggleButton = document.getElementById('theme-toggle-button');
-    const body = document.body;
+      <!-- Diğer içerikler -->
+    </main>
+    <main id="feed" class="container">
+      <!-- RSS beslemesi burada görüntülenecek -->
+    </main>
 
-    themeToggleButton.addEventListener('click', () => {
-      body.classList.toggle('dark-mode');
-    });
-  </script>
-</body>
+    <footer>
+      <p style="font-weight: bolder; font-size: larger">Mehmet Kahya - 2023</p>
+      <ul>
+        <li style="font-weight: lighter; font-size: small">
+          Webtekno - New York Times -Technopat - Github - Evrim Ağacı - OpenAI
+          Blog - The Verge - Apple Newsroom - Apple Devoloper News
+        </li>
+      </ul>
+    </footer>
+    <script src="script.js"></script>
+    <script>
+      const themeToggleButton = document.getElementById("theme-toggle-button");
+      const body = document.body;
 
+      themeToggleButton.addEventListener("click", () => {
+        body.classList.toggle("dark-mode");
+      });
+    </script>
+  </body>
 </html>
