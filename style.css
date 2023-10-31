@@ -1,17 +1,14 @@
-/* Selection color */
 ::selection {
   color: black;
   background: yellow;
 }
-
-
 
 /* Global Styles */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background-color: #f0f0f0;
+  background-color: #f8f5f1;
 }
 
 .logo img {
@@ -84,7 +81,6 @@ header {
   background-color: #0056b3;
 }
 
-
 .toggle-header-button {
   background-color: #ffffff;
   color: white;
@@ -111,11 +107,10 @@ header {
   border: 1px solid #ddd;
   margin-bottom: 1.5rem;
   padding: 1.5rem;
-  background-color: white;
+  background-color: #f9f2e7d5;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
 
 .feed-title {
   font-size: 1.5rem;
@@ -222,7 +217,6 @@ header {
   font-weight: lighter;
 }
 
-
 /* Mobil uyarı kutusu */
 .dark-mode .mobile-warning {
   display: none;
@@ -257,13 +251,11 @@ footer ul li {
   margin-bottom: 0.3rem;
 }
 
-
 img {
   max-width: 150px;
   max-height: 100px;
   border-radius: 5px;
 }
-
 
 /* Mobil uyarı kutusu */
 .mobile-warning {
@@ -290,9 +282,6 @@ img {
   }
 }
 
-
-
-
 /* Ekran genişliği 600 pikselden küçük olduğunda header fontunu küçült */
 @media (max-width: 600px) {
   h1 {
@@ -316,23 +305,34 @@ img {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   flex: 1;
   /* Eşit genişlikte */
+  border: 1px solid;
+  font-weight: 100;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 #update-notes h3 {
   margin-top: 0;
   margin-bottom: 1rem;
+  font-size: medium;
+  font-weight: 600;
 }
 
 #update-list {
   list-style: none;
   padding: 0;
+  font-weight: 100;
 }
 
 #update-list li {
   margin-bottom: 0.5rem;
+  font-weight: 100;
 }
 
-
+#update-list {
+  font-size: small;
+  font-weight: 100;
+}
 
 /* Update Notes bölümü stilleri */
 .dark-mode #update-notes {
@@ -342,7 +342,6 @@ img {
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   flex: 1;
-  /* Eşit genişlikte */
 }
 
 .dark-mode #update-notes h3 {
