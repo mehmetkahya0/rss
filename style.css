@@ -186,9 +186,17 @@ header {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
+.dark-mode .feed-title {
+  color: #fff;
+}
+
 .dark-mode .article {
   background-color: #333;
   border-color: #767676;
+}
+
+.dark-mode .article:hover {
+  background-color: #444;
 }
 
 .dark-mode .article h2 {
