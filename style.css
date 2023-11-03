@@ -85,7 +85,7 @@ header {
   background-color: #ffffff;
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
+  padding: 0.2rem 0.75rem;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -127,26 +127,9 @@ header {
   /* Yatay yönde hizalama */
   border-radius: 5px;
 }
-
-.image-container {
-  margin-left: 1rem;
-  /* Görselin içeriğin sağına bırakılması */
-  flex-shrink: 0;
-  /* Görselin boyutunu değiştirmeden kalması */
-}
-
-.image-container img {
-  max-width: 100%;
-  height: auto;
-}
-
-.content-container {
-  flex-grow: 1;
-  /* İçerik bölümünün boşluğu doldurması */
-}
-
 .article:hover {
   background-color: #ebebeb;
+  filter: drop-shadow(0 0 0.75rem #ddd);
 }
 
 .article h2 {
@@ -174,6 +157,24 @@ header {
   font-weight: lighter;
 }
 
+.image-container {
+  margin-left: 1rem;
+  /* Görselin içeriğin sağına bırakılması */
+  flex-shrink: 0;
+  /* Görselin boyutunu değiştirmeden kalması */
+}
+
+.image-container img {
+  max-width: 100%;
+  height: auto;
+}
+
+.content-container {
+  flex-grow: 1;
+  /* İçerik bölümünün boşluğu doldurması */
+}
+
+
 /* Dark Mode */
 .dark-mode {
   background-color: #111;
@@ -186,17 +187,9 @@ header {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
-.dark-mode .feed-title {
-  color: #fff;
-}
-
 .dark-mode .article {
   background-color: #333;
   border-color: #767676;
-}
-
-.dark-mode .article:hover {
-  background-color: #444;
 }
 
 .dark-mode .article h2 {
@@ -270,7 +263,7 @@ img {
   display: none;
   /* Başlangıçta gizli */
   text-align: center;
-  background-color: #f2f2f2;
+  background-color: #e7dcdc;
   padding: 5px;
   border: 3px solid;
   font-weight: lighter;
