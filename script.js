@@ -114,9 +114,10 @@ const body = document.body;
 themeToggleButton.addEventListener("click", () => {
   body.classList.toggle("dark-mode");
   if (body.classList.contains("dark-mode")) {
-    themeToggleButton.innerHTML = "🌙"; // Ay emojisi
-  } else {
     themeToggleButton.innerHTML = "☀️"; // Güneş emojisi
+
+  } else {
+    themeToggleButton.innerHTML = "🌙"; // Ay emojisi
   }
 });
 
