@@ -5,7 +5,7 @@
 
 /* Global Styles */
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Poppins", sans-serif;
   margin: 0;
   padding: 0;
   background-color: #f8f5f1;
@@ -17,6 +17,11 @@ body {
   height: auto;
 }
 
+p {
+  margin: 0.5rem 0;
+  font-weight: normal !important;
+}
+
 /* Header Styles */
 header {
   background-color: #333;
@@ -25,6 +30,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size: 24px;
 }
 
 .logo img {
@@ -55,6 +61,7 @@ header {
   display: flex;
   align-items: center;
   gap: 1rem;
+  font-size: small;
 }
 
 .github-logo {
@@ -71,6 +78,7 @@ header {
   background-color: #007bff;
   color: white;
   border: none;
+  font-size: small !important;
   padding: 0.5rem 1rem;
   border-radius: 4px;
   cursor: pointer;
@@ -102,6 +110,32 @@ header {
   padding: 2rem;
 }
 
+.update-notes {
+  background-color: #000000 !important;
+  color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+}
+
+.update-notes p {
+  margin: 0.5rem 0;
+  font-weight: bolder !important;
+  font-size: smaller;
+}
+
+.mobile-warning {
+  display: none;
+  /* Başlangıçta gizli */
+  text-align: center;
+  background-color: #ffffff;
+  padding: 5px;
+  font-weight: bolder !important;
+  font-size: small;
+  border: none !important;
+
+}
+
 /* Feed Section */
 .feed-section {
   border: 1px solid #ddd;
@@ -129,7 +163,6 @@ header {
 }
 .article:hover {
   background-color: #ebebeb;
-  filter: drop-shadow(0 0 0.75rem #ddd);
 }
 
 .article h2 {
@@ -174,7 +207,6 @@ header {
   /* İçerik bölümünün boşluğu doldurması */
 }
 
-
 /* Dark Mode */
 .dark-mode {
   background-color: #111;
@@ -184,12 +216,15 @@ header {
 .dark-mode .feed-section {
   background-color: #222;
   border-color: #444;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .dark-mode .article {
   background-color: #333;
   border-color: #767676;
+}
+
+.dark-mode .article:hover {
+  background-color: #444;
 }
 
 .dark-mode .article h2 {
@@ -218,17 +253,18 @@ header {
   font-weight: lighter;
 }
 
+
 /* Mobil uyarı kutusu */
 .dark-mode .mobile-warning {
-  display: none;
   /* Başlangıçta gizli */
   text-align: center;
-  background-color: black;
+  background-color: #232323;
   padding: 5px;
   border: 3px solid;
-  font-weight: lighter;
+  font-weight: bolder;
   font-size: small;
   color: white;
+  border: none;
 }
 
 /* Footer Styles */
@@ -303,7 +339,6 @@ img {
   background-color: #f9f9f9;
   padding: 1rem;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   flex: 1;
   /* Eşit genişlikte */
   border: 1px solid;
@@ -341,7 +376,6 @@ img {
   background-color: #232323;
   padding: 1rem;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   flex: 1;
 }
 
