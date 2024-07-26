@@ -317,6 +317,15 @@ img {
   img {
     display: none;
   }
+
+  .header-button {
+    display: none;
+  }
+
+  .github-logo {
+    display: none;
+  }
+
 }
 
 /* Ekran genişliği 600 pikselden küçük olduğunda header fontunu küçült */
