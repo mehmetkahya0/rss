@@ -41,6 +41,10 @@ document.addEventListener("DOMContentLoaded", () => {
       title: "Apple Developer News and Updates",
       url: "https://api.rss2json.com/v1/api.json?rss_url=https://developer.apple.com/news/rss/news.rss",
     },
+    {
+      title: "Formula 1",
+      url: "https://api.rss2json.com/v1/api.json?rss_url=https://www.formula1.com/en/latest/all.xml",
+    },
   ];
   rssFeeds.forEach((feed) => {
     fetch(feed.url)
