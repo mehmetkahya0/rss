@@ -1,140 +1,331 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const feedContainer = document.getElementById("feed");
-  const rssFeeds = [
+  // Multiple CORS proxies with API keys where needed
+  const CORS_PROXIES = [
     {
-      title: "Webtekno",
-      url: "https://api.rss2json.com/v1/api.json?rss_url=https://www.webtekno.com/rss.xml",
+      url: "https://api.rss2json.com/v1/api.json?api_key=YOUR_API_KEY&rss_url=",
+      type: "json",
     },
     {
-      title: "New York Times",
-      url: "https://api.rss2json.com/v1/api.json?rss_url=https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml",
+      url: "https://proxy.cors.sh/",
+      type: "xml",
+      headers: { "x-cors-grida-api-key": "YOUR_API_KEY" },
     },
     {
-      title: "OpenAI Blog",
-      url: "https://api.rss2json.com/v1/api.json?rss_url=https://jamesg.blog/openai.xml",
-    },
-    {
-      title: "Evrim Ağacı",
-      url: "https://api.rss2json.com/v1/api.json?rss_url=https://evrimagaci.org/rss.xml",
-    },
-    {
-      title: "Technopat",
-      url: "https://api.rss2json.com/v1/api.json?rss_url=https://www.technopat.net/feed",
-    },
-    {
-      title: "WIRED",
-      url: "https://api.rss2json.com/v1/api.json?rss_url=https://www.wired.com/feed/category/science/latest/rss",
-    },
-    {
-      title: "9to5Mac",
-      url: "https://api.rss2json.com/v1/api.json?rss_url=https://9to5mac.com/feed",
-    },
-    {
-      title: "The Verge",
-      url: "https://api.rss2json.com/v1/api.json?rss_url=http://www.theverge.com/rss/index.xml",
-    },
-    {
-      title: "Apple Newsroom",
-      url: "https://api.rss2json.com/v1/api.json?rss_url=https://www.apple.com/newsroom/rss-feed.rss",
-    },
-    {
-      title: "Apple Developer News and Updates",
-      url: "https://api.rss2json.com/v1/api.json?rss_url=https://developer.apple.com/news/rss/news.rss",
-    },
-    {
-      title: "Formula 1",
-      url: "https://api.rss2json.com/v1/api.json?rss_url=https://www.formula1.com/en/latest/all.xml",
+      url: "https://api.allorigins.win/raw?url=",
+      type: "xml",
     },
   ];
-  rssFeeds.forEach((feed) => {
-    fetch(feed.url)
-      .then((response) => response.json())
-      .then((data) => {
-        const items = data.items;
 
-        const feedSection = document.createElement("section");
-        feedSection.classList.add("feed-section");
+  let currentProxyIndex = 0;
 
-        const feedTitle = document.createElement("h2");
-        feedTitle.textContent = feed.title;
-        feedTitle.classList.add("feed-title");
+  // Improved cache with longer retention
+  const feedCache = {
+    data: {},
+    set: function (url, data) {
+      this.data[url] = {
+        timestamp: Date.now(),
+        content: data,
+      };
+      // Store in localStorage for persistence
+      localStorage.setItem("feedCache", JSON.stringify(this.data));
+    },
+    get: function (url, ignoreExpiry = false) {
+      const cached = this.data[url];
+      if (
+        cached &&
+        (ignoreExpiry || Date.now() - cached.timestamp < 1000 * 60 * 60)
+      ) {
+        // 1 hour cache
+        return cached.content;
+      }
+      return null;
+    },
+    load: function () {
+      try {
+        this.data = JSON.parse(localStorage.getItem("feedCache")) || {};
+      } catch (e) {
+        this.data = {};
+      }
+    },
+  };
 
-        feedSection.appendChild(feedTitle);
+  feedCache.load();
 
-        items.forEach((item) => {
-          const title = item.title;
-          const link = item.link;
-          const description = item.description;
+  // Simplified feed list with working URLs
+  const feeds = [
+    {
+      url: "https://www.wired.com/feed/rss",
+      category: "tech",
+    },
+    {
+      url: "https://techcrunch.com/feed/",
+      category: "tech",
+    },
+    {
+      url: "https://www.theverge.com/rss/index.xml",
+      category: "tech",
+    },
+    {
+      url: "https://www.nytimes.com/svc/collections/v1/publish/https://www.nytimes.com/section/technology/rss.xml",
+      category: "tech",
+    },
+    {
+      url: "https://www.apple.com/newsroom/rss-feed.rss",
+      category: "tech",
+    },
+    {
+      url: "https://developer.apple.com/news/releases/rss/releases.rss",
+      category: "tech",
+    },
+    {
+      url: "https://www.evrimagaci.org/rss.xml",
+      category: "science",
+    },
+    {
+      url: "https://9to5mac.com/feed/",
+      category: "tech",
+    },
+    {
+      url: "https://www.formula1.com/content/fom-website/en/latest.rss",
+      category: "sports",
+    },
+  ];
 
-          const article = document.createElement("article");
-          article.classList.add("article");
+  const feedsContainer = document.getElementById("feeds");
+  const searchInput = document.getElementById("search");
+  const themeToggle = document.getElementById("theme-toggle");
 
-          const titleLink = document.createElement("a");
-          titleLink.href = link;
-          titleLink.target = "_blank";
-          titleLink.textContent = title;
+  // Theme handling
+  const theme = localStorage.getItem("theme") || "light";
+  document.body.classList.toggle("dark-theme", theme === "dark");
+  themeToggle.checked = theme === "dark";
 
-          const descPara = document.createElement("p");
-          descPara.innerHTML = description.replace(/<a[^>]*>|<\/a>/g, "");
-
-          titleLink.addEventListener("click", (event) => {
-            event.preventDefault(); // Sayfanın yeniden yüklenmesini engelle
-            window.open(link, "_blank"); // Yeni sekmede haberin linkini aç
-          });
-
-          const contentContainer = document.createElement("div");
-          contentContainer.classList.add("content-container");
-          contentContainer.appendChild(titleLink);
-          contentContainer.appendChild(descPara);
-
-          article.appendChild(contentContainer);
-          feedSection.appendChild(article);
-        });
-
-        feedContainer.appendChild(feedSection);
-      })
-      .catch((error) => {
-        console.error(
-          `${feed.title} RSS feed çekilirken bir hata oluştu:`,
-          error
-        );
-      });
+  themeToggle.addEventListener("change", () => {
+    document.body.classList.toggle("dark-theme");
+    const isDark = document.body.classList.contains("dark-theme");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
   });
 
-  // Feedback button click event
-  const feedbackButton = document.getElementById("feedback-button");
-
-  feedbackButton.addEventListener("click", () => {
-    const subject = encodeURIComponent("Feedback");
-    const body = encodeURIComponent("Enter your Feedback message.");
-
-    window.location.href = `mailto:mehmetkahyakas5@gmail.com?subject=${subject}&body=${body}`;
-  });
-});
-
-const themeToggleButton = document.getElementById("theme-toggle-button");
-const body = document.body;
-
-themeToggleButton.addEventListener("click", () => {
-  body.classList.toggle("dark-mode");
-  if (body.classList.contains("dark-mode")) {
-    themeToggleButton.innerHTML = "☀️"; // Güneş emojisi
-
-  } else {
-    themeToggleButton.innerHTML = "🌙"; // Ay emojisi
+  function sanitizeHTML(html) {
+    // Remove all image tags
+    html = html.replace(/<img[^>]*>/g, "");
+    // Remove any figure tags and their contents
+    html = html.replace(/<figure[^>]*>.*?<\/figure>/g, "");
+    // Remove any iframe tags
+    html = html.replace(/<iframe[^>]*>.*?<\/iframe>/g, "");
+    // Remove data attributes and srcset
+    html = html.replace(/ data-[^=]*="[^"]*"/g, "");
+    html = html.replace(/ srcset="[^"]*"/g, "");
+    // Clean up any empty paragraphs or multiple spaces
+    html = html.replace(/<p>\s*<\/p>/g, "");
+    html = html.replace(/\s+/g, " ");
+    return html.trim();
   }
+
+  async function parseXMLFeed(text) {
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(text, "text/xml");
+    const items = Array.from(xml.querySelectorAll("item, entry"));
+
+    return items.map((item) => ({
+      title: item.querySelector("title")?.textContent || "",
+      link: item.querySelector("link")?.textContent || "",
+      description: sanitizeHTML(
+        item.querySelector("description, summary, content\\:encoded")
+          ?.textContent || ""
+      ),
+      date:
+        item.querySelector("pubDate, published, updated")?.textContent ||
+        new Date().toISOString(),
+    }));
+  }
+
+  async function fetchWithExponentialBackoff(
+    url,
+    options = {},
+    retries = 3,
+    delay = 1000
+  ) {
+    for (let i = 0; i < retries; i++) {
+      try {
+        const response = await fetch(url, options);
+        if (response.ok) {
+          const text = await response.text();
+          try {
+            return JSON.parse(text);
+          } catch {
+            return text;
+          }
+        }
+        if (response.status === 429) {
+          const waitTime = delay * Math.pow(2, i);
+          await new Promise((resolve) => setTimeout(resolve, waitTime));
+          continue;
+        }
+        throw new Error(`HTTP error! status: ${response.status}`);
+      } catch (error) {
+        if (i === retries - 1) throw error;
+        await new Promise((resolve) =>
+          setTimeout(resolve, delay * Math.pow(2, i))
+        );
+      }
+    }
+  }
+
+  async function fetchFeed(feed) {
+    const cached = feedCache.get(feed.url);
+    if (cached) return cached;
+
+    for (const proxy of CORS_PROXIES) {
+      try {
+        const response = await fetchWithExponentialBackoff(
+          `${proxy.url}${encodeURIComponent(feed.url)}`,
+          { headers: proxy.headers }
+        );
+
+        const items =
+          proxy.type === "json"
+            ? response.items || response.entries || []
+            : await parseXMLFeed(response);
+
+        const processedItems = items.map((item) => ({
+          title: item.title,
+          link: item.link || item.url,
+          description: sanitizeHTML(
+            item.description || item.content || item.summary || ""
+          ),
+          date: item.pubDate || item.published || item.date,
+          category: feed.category,
+        }));
+
+        if (processedItems.length > 0) {
+          feedCache.set(feed.url, processedItems);
+          return processedItems;
+        }
+      } catch (error) {
+        console.warn(`Proxy ${proxy.url} failed:`, error);
+        continue;
+      }
+    }
+
+    // Return cached data if all proxies fail
+    return feedCache.get(feed.url, true) || [];
+  }
+
+  // Load feeds
+  async function loadFeeds() {
+    feedsContainer.innerHTML = '<div class="loading">Loading feeds...</div>';
+
+    try {
+      const feedPromises = feeds.map((feed) => fetchFeed(feed));
+
+      const allFeeds = await Promise.all(feedPromises);
+      const flatFeeds = allFeeds
+        .flat()
+        .filter((item) => item.title && item.link)
+        .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      if (flatFeeds.length === 0) {
+        throw new Error("No feeds available. Please try again later.");
+      }
+
+      feedsContainer.innerHTML = "";
+      flatFeeds.forEach((item) => {
+        feedsContainer.appendChild(createFeedCard(item));
+      });
+    } catch (error) {
+      feedsContainer.innerHTML = `
+        <div class="error">
+          ${error.message}
+          <button onclick="loadFeeds()">Try Again</button>
+        </div>`;
+      console.error("Error loading feeds:", error);
+    }
+  }
+
+  function createFeedCard(item) {
+    const card = document.createElement("article");
+    card.className = "feed-card";
+    card.dataset.category = item.category;
+
+    // Extract source from the link
+    const getSourceName = (link) => {
+      try {
+        const url = new URL(link);
+        const domain = url.hostname.replace("www.", "");
+        // Map common domains to readable names
+        const sourceMap = {
+          "nytimes.com": "New York Times",
+          "wired.com": "WIRED",
+          "theverge.com": "The Verge",
+          "webtekno.com": "Webtekno",
+          "evrimagaci.org": "Evrim Ağacı",
+          "9to5mac.com": "9to5Mac",
+          "apple.com": "Apple Newsroom",
+          "developer.apple.com": "Apple Developer",
+          "formula1.com": "Formula 1",
+          "feedburner.com": "The Hackers News",
+        };
+        return (
+          sourceMap[domain] ||
+          domain.split(".")[0].charAt(0).toUpperCase() +
+            domain.split(".")[0].slice(1)
+        );
+      } catch {
+        return "Unknown Source";
+      }
+    };
+
+    card.innerHTML = `
+      <div class="feed-content">
+        <h2 class="feed-title">
+          <a href="${item.link}" class="feed-link" target="_blank">${
+      item.title
+    }</a>
+        </h2>
+        <p>${item.description.substring(0, 150)}...</p>
+        <div class="feed-meta">
+          <time>${new Date(item.date).toLocaleDateString()}</time>
+          <span class="feed-source">${getSourceName(item.link)}</span>
+          ${
+            item.category
+              ? `<span class="feed-category">${item.category}</span>`
+              : ""
+          }
+        </div>
+      </div>
+    `;
+
+    return card;
+  }
+
+  // Search functionality
+  searchInput.addEventListener("input", (e) => {
+    const query = e.target.value.toLowerCase();
+    document.querySelectorAll(".feed-card").forEach((card) => {
+      const title = card.querySelector(".feed-title").textContent.toLowerCase();
+      card.style.display = title.includes(query) ? "block" : "none";
+    });
+  });
+
+  // Filter functionality
+  document.querySelectorAll(".filter-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document
+        .querySelectorAll(".filter-btn")
+        .forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      const category = btn.dataset.category;
+      document.querySelectorAll(".feed-card").forEach((card) => {
+        card.style.display =
+          category === "all" || card.dataset.category === category
+            ? "block"
+            : "none";
+      });
+    });
+  });
+
+  // Initial load
+  loadFeeds();
 });
-
-const updateList = document.getElementById("update-list");
-
-function addUpdate(updateText) {
-  const updateItem = document.createElement("li");
-  updateItem.textContent = updateText;
-  updateList.appendChild(updateItem);
-}
-
-// Yenilikler burada listeye eklenecek
-addUpdate("17 ağustos 2023: ");
-addUpdate("  Dark mode toggle eklendi.");
-addUpdate("  Responsive tasarım güncellendi.");
-// Yeni yenilikleri burada ekleyebilirsiniz.
