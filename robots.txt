@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+Allow: /index.html
+Allow: /images/
+Allow: /style.css
+
+# Prevent caching of API responses and status page
+Disallow: /status.html
+Disallow: /*.json$
+
+# Sitemap
+Sitemap: https://mehmetkahya0.github.io/rss/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 10
