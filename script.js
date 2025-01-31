@@ -339,6 +339,63 @@ document.addEventListener("DOMContentLoaded", () => {
   async function checkSystemStatus() {
     if (!document.getElementById('system-status')) return;
 
+    // Add ping monitoring
+    const pingStart = performance.now();
+    const pingStatus = {
+      times: [],
+      startTime: Date.now()
+    };
+
+    // Function to measure ping
+    async function measurePing() {
+      const start = performance.now();
+      try {
+        // Try to fetch a small resource to measure response time
+        await fetch('images/rss.png', { cache: 'no-store' });
+        const end = performance.now();
+        return end - start;
+      } catch (error) {
+        return -1; // Error case
+      }
+    }
+
+    // Update ping display
+    async function updatePingStatus() {
+      const pingTime = await measurePing();
+      if (pingTime !== -1) {
+        pingStatus.times.push(pingTime);
+        // Keep only last 10 measurements
+        if (pingStatus.times.length > 10) pingStatus.times.shift();
+      }
+
+      const lastPingEl = document.getElementById('last-ping');
+      const avgPingEl = document.getElementById('avg-ping');
+      const uptimeEl = document.getElementById('uptime');
+
+      if (lastPingEl && avgPingEl && uptimeEl) {
+        // Update last ping
+        lastPingEl.textContent = pingTime === -1 ? 'Failed' : `${Math.round(pingTime)}ms`;
+        lastPingEl.style.color = pingTime === -1 ? '#991b1b' : '#166534';
+
+        // Calculate and update average
+        const avg = pingStatus.times.reduce((a, b) => a + b, 0) / pingStatus.times.length;
+        avgPingEl.textContent = `${Math.round(avg)}ms`;
+
+        // Calculate uptime
+        const uptime = Math.round((Date.now() - pingStatus.startTime) / 1000);
+        const hours = Math.floor(uptime / 3600);
+        const minutes = Math.floor((uptime % 3600) / 60);
+        const seconds = uptime % 60;
+        uptimeEl.textContent = `${hours}h ${minutes}m ${seconds}s`;
+      }
+    }
+
+    // Initial ping check
+    await updatePingStatus();
+    
+    // Regular ping updates
+    const pingInterval = setInterval(updatePingStatus, 10000); // Every 10 seconds
+
     // Check feed sources
     const feedSourcesEl = document.getElementById('feed-sources');
     feedSourcesEl.innerHTML = feeds.map(feed => `
@@ -407,6 +464,11 @@ document.addEventListener("DOMContentLoaded", () => {
     
     systemStatusEl.textContent = isSystemOnline ? '✅ System Online' : '❌ System Offline';
     systemStatusEl.classList.add(isSystemOnline ? 'online' : 'offline');
+
+    // Clean up interval when leaving the page
+    window.addEventListener('beforeunload', () => {
+      clearInterval(pingInterval);
+    });
   }
 
   // Add this at the end of the DOMContentLoaded event listener

@@ -461,3 +461,19 @@ footer a[href="status.html"]::before {
 .status-info dt {
     font-weight: 500;
 }
+
+.status-info dd {
+    font-family: monospace;
+    padding: 0.25rem 0.5rem;
+    background: var(--background);
+    border-radius: 4px;
+    margin-left: 0.5rem;
+}
+
+#last-ping, #avg-ping {
+    font-weight: 500;
+}
+
+#uptime {
+    color: var(--primary);
+}
