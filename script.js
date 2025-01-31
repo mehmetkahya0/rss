@@ -95,16 +95,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("search");
   const themeToggle = document.getElementById("theme-toggle");
 
-  // Theme handling
+  // Theme handling - this should work on all pages
   const theme = localStorage.getItem("theme") || "light";
   document.body.classList.toggle("dark-theme", theme === "dark");
-  themeToggle.checked = theme === "dark";
-
-  themeToggle.addEventListener("change", () => {
-    document.body.classList.toggle("dark-theme");
-    const isDark = document.body.classList.contains("dark-theme");
-    localStorage.setItem("theme", isDark ? "dark" : "light");
-  });
+  if (themeToggle) {
+    themeToggle.checked = theme === "dark";
+    themeToggle.addEventListener("change", () => {
+      document.body.classList.toggle("dark-theme");
+      const isDark = document.body.classList.contains("dark-theme");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+    });
+  }
 
   function sanitizeHTML(html) {
     // Remove all image tags
@@ -299,33 +300,119 @@ document.addEventListener("DOMContentLoaded", () => {
     return card;
   }
 
-  // Search functionality
-  searchInput.addEventListener("input", (e) => {
-    const query = e.target.value.toLowerCase();
-    document.querySelectorAll(".feed-card").forEach((card) => {
-      const title = card.querySelector(".feed-title").textContent.toLowerCase();
-      card.style.display = title.includes(query) ? "block" : "none";
-    });
-  });
-
-  // Filter functionality
-  document.querySelectorAll(".filter-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      document
-        .querySelectorAll(".filter-btn")
-        .forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-
-      const category = btn.dataset.category;
+  // Only add event listeners if elements exist (main page only)
+  if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+      const query = e.target.value.toLowerCase();
       document.querySelectorAll(".feed-card").forEach((card) => {
-        card.style.display =
-          category === "all" || card.dataset.category === category
-            ? "block"
-            : "none";
+        const title = card.querySelector(".feed-title").textContent.toLowerCase();
+        card.style.display = title.includes(query) ? "block" : "none";
       });
     });
-  });
+  }
 
-  // Initial load
-  loadFeeds();
+  // Filter functionality - only for main page
+  const filterButtons = document.querySelectorAll(".filter-btn[data-category]");
+  if (filterButtons.length > 0) {
+    filterButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        filterButtons.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        const category = btn.dataset.category;
+        document.querySelectorAll(".feed-card").forEach((card) => {
+          card.style.display =
+            category === "all" || card.dataset.category === category
+              ? "block"
+              : "none";
+        });
+      });
+    });
+  }
+
+  // Initial load - only if we're on the main page
+  if (feedsContainer) {
+    loadFeeds();
+  }
+
+  // Add this after the DOMContentLoaded event listener
+  async function checkSystemStatus() {
+    if (!document.getElementById('system-status')) return;
+
+    // Check feed sources
+    const feedSourcesEl = document.getElementById('feed-sources');
+    feedSourcesEl.innerHTML = feeds.map(feed => `
+        <div class="status-item">
+            <span>${new URL(feed.url).hostname}</span>
+            <span class="status-indicator">Checking...</span>
+        </div>
+    `).join('');
+
+    // Check each feed source
+    const feedItems = feedSourcesEl.querySelectorAll('.status-item');
+    for (let i = 0; i < feeds.length; i++) {
+        const statusIndicator = feedItems[i].querySelector('.status-indicator');
+        try {
+            await fetchFeed(feeds[i]);
+            statusIndicator.textContent = '✅ Online';
+            statusIndicator.style.color = '#166534';
+        } catch (error) {
+            statusIndicator.textContent = '❌ Offline';
+            statusIndicator.style.color = '#991b1b';
+        }
+    }
+
+    // Check cache status
+    const cacheStatusEl = document.getElementById('cache-status');
+    const cachedItems = Object.keys(feedCache.data).length;
+    cacheStatusEl.innerHTML = `
+        <dl>
+            <dt>Cached Items:</dt>
+            <dd>${cachedItems}</dd>
+            <dt>Last Updated:</dt>
+            <dd>${cachedItems > 0 ? new Date(Math.max(...Object.values(feedCache.data).map(item => item.timestamp))).toLocaleString() : 'Never'}</dd>
+        </dl>
+    `;
+
+    // Check CORS proxies
+    const proxyStatusEl = document.getElementById('proxy-status');
+    proxyStatusEl.innerHTML = CORS_PROXIES.map(proxy => `
+        <div class="status-item">
+            <span>${new URL(proxy.url).hostname}</span>
+            <span class="status-indicator">Checking...</span>
+        </div>
+    `).join('');
+
+    // Check each proxy
+    const proxyItems = proxyStatusEl.querySelectorAll('.status-item');
+    for (let i = 0; i < CORS_PROXIES.length; i++) {
+        const statusIndicator = proxyItems[i].querySelector('.status-indicator');
+        try {
+            const response = await fetch(CORS_PROXIES[i].url + encodeURIComponent('https://example.com'), {
+                headers: CORS_PROXIES[i].headers
+            });
+            statusIndicator.textContent = response.ok ? '✅ Online' : '⚠️ Issues';
+            statusIndicator.style.color = response.ok ? '#166534' : '#854d0e';
+        } catch (error) {
+            statusIndicator.textContent = '❌ Offline';
+            statusIndicator.style.color = '#991b1b';
+        }
+    }
+
+    // Update overall system status
+    const systemStatusEl = document.getElementById('system-status');
+    const isSystemOnline = feedItems.length > 0 && Array.from(feedItems).some(
+        item => item.querySelector('.status-indicator').textContent.includes('Online')
+    );
+    
+    systemStatusEl.textContent = isSystemOnline ? '✅ System Online' : '❌ System Offline';
+    systemStatusEl.classList.add(isSystemOnline ? 'online' : 'offline');
+  }
+
+  // Add this at the end of the DOMContentLoaded event listener
+  if (window.location.pathname.includes('status.html')) {
+    checkSystemStatus();
+    // Refresh status every 5 minutes
+    setInterval(checkSystemStatus, 5 * 60 * 1000);
+  }
 });

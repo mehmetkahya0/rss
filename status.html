@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>System Status - RSS Feed</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" type="image/png" href="images/rss.png" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-content">
+        <div class="nav-brand">
+          <img src="images/rss.png" alt="Logo" class="nav-logo" />
+          <h1>System Status</h1>
+        </div>
+        <div class="nav-controls">
+          <a href="index.html" class="filter-btn">Back to Home</a>
+          <label class="theme-switch">
+            <input type="checkbox" id="theme-toggle" />
+            <span class="slider round"></span>
+          </label>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <div class="feeds-wrapper">
+        <div class="status-grid">
+          <div class="status-card">
+            <h2>System Status</h2>
+            <div id="system-status" class="status-indicator">Checking...</div>
+          </div>
+
+          <div class="status-card">
+            <h2>Feed Sources</h2>
+            <div id="feed-sources" class="status-list">Loading...</div>
+          </div>
+
+          <div class="status-card">
+            <h2>Cache Status</h2>
+            <div id="cache-status" class="status-info">Checking cache...</div>
+          </div>
+
+          <div class="status-card">
+            <h2>CORS Proxies</h2>
+            <div id="proxy-status" class="status-list">Checking proxies...</div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>

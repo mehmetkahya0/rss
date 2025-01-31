@@ -161,6 +161,11 @@ body {
   font-weight: 500;
 }
 
+/* Remove or comment out the old status button styles */
+/* .filter-btn[href="status.html"] { ... } */
+/* .filter-btn[href="status.html"]:hover { ... } */
+/* .filter-btn[href="status.html"]::before { ... } */
+
 .filter-btn:hover,
 .theme-btn:hover {
   background: var(--background);
@@ -339,6 +344,31 @@ footer {
   font-weight: bolder;
 }
 
+footer a {
+  color: var(--text);
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+footer a:hover {
+  color: var(--primary);
+  background: var(--background);
+}
+
+/* Add status link specific styles */
+footer a[href="status.html"] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+footer a[href="status.html"]::before {
+  content: "⚡";
+  font-size: 0.875rem;
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .nav-content {
@@ -361,4 +391,73 @@ footer {
   .feed-filters {
     justify-content: center;
   }
+}
+
+/* Status Page Styles */
+.status-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.status-card {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid var(--border);
+}
+
+.status-card h2 {
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+}
+
+.status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 500;
+}
+
+.status-indicator.online {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status-indicator.offline {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.status-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.status-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    border-radius: 6px;
+    background: var(--background);
+}
+
+.status-info {
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+
+.status-info dl {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem 1rem;
+}
+
+.status-info dt {
+    font-weight: 500;
 }
